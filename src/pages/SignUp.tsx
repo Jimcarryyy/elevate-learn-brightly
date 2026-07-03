@@ -1,263 +1,195 @@
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
-
-const SignUp = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    agreeToTerms: false
+const signUpSchema = z
+  .object({
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    email: z.string().email("Enter a valid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string(),
+    agreeToTerms: z.boolean().refine((val) => val === true, {
+      message: "You must agree to the terms",
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-    if (!formData.agreeToTerms) {
-      alert('Please agree to the terms and conditions!');
-      return;
-    }
-    console.log('Sign up form submitted:', formData);
-    // Handle sign up logic here
-    alert('Sign up functionality would be implemented here!');
-  };
+type SignUpForm = z.infer<typeof signUpSchema>;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value
+const SignUp = () => {
+  usePageTitle("Create account — Elevate");
+
+  const form = useForm<SignUpForm>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      agreeToTerms: false,
+    },
+  });
+
+  const onSubmit = () => {
+    toast.info("Preview mode", {
+      description: "Account creation is not enabled in this demo.",
     });
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen animate-page-enter">
       <Navigation />
-      
-      <main className="pt-20">
+
+      <main className="pt-16">
         <section className="section-padding">
-          <div className="max-w-md mx-auto">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-4 gradient-text">Create Account</h1>
-              <p className="text-gray-600">Join thousands of learners and start your journey today</p>
+          <div className="mx-auto max-w-md">
+            <div className="mb-8 text-center">
+              <h1 className="mb-2 font-display text-3xl font-semibold">Create account</h1>
+              <p className="text-muted-foreground">Start learning with a free Elevate account</p>
             </div>
 
-            {/* Sign Up Form */}
-            <div className="glass-card rounded-2xl p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name Fields */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                      First Name
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-gray-400" />
-                      </div>
-                      <input
-                        type="text"
-                        id="firstName"
+            <Card>
+              <CardContent className="p-6">
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
                         name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                        className="w-full pl-10 pr-4 py-3 glass-card border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        placeholder="John"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>First name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Alex" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="lastName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Last name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Kim" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
                     </div>
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 glass-card border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      placeholder="Doe"
-                    />
-                  </div>
-                </div>
 
-                {/* Email Field */}
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input
-                      type="email"
-                      id="email"
+                    <FormField
+                      control={form.control}
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full pl-10 pr-4 py-3 glass-card border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      placeholder="your@email.com"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="you@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                </div>
 
-                {/* Password Field */}
-                <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      id="password"
+                    <FormField
+                      control={form.control}
                       name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                      className="w-full pl-10 pr-12 py-3 glass-card border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      placeholder="Create a strong password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                      ) : (
-                        <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <Input type="password" placeholder="At least 8 characters" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
-                    </button>
-                  </div>
-                </div>
+                    />
 
-                {/* Confirm Password Field */}
-                <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                    Confirm Password
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      id="confirmPassword"
+                    <FormField
+                      control={form.control}
                       name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      required
-                      className="w-full pl-10 pr-12 py-3 glass-card border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      placeholder="Confirm your password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                      ) : (
-                        <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Confirm password</FormLabel>
+                          <FormControl>
+                            <Input type="password" placeholder="Repeat password" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
-                    </button>
-                  </div>
-                </div>
+                    />
 
-                {/* Terms Agreement */}
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="agreeToTerms"
-                    name="agreeToTerms"
-                    checked={formData.agreeToTerms}
-                    onChange={handleChange}
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded mt-1"
-                  />
-                  <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-gray-700">
-                    I agree to the{' '}
-                    <Link to="/terms" className="text-indigo-600 hover:text-indigo-500 font-medium">
-                      Terms of Service
-                    </Link>{' '}
-                    and{' '}
-                    <Link to="/privacy" className="text-indigo-600 hover:text-indigo-500 font-medium">
-                      Privacy Policy
-                    </Link>
-                  </label>
-                </div>
+                    <FormField
+                      control={form.control}
+                      name="agreeToTerms"
+                      render={({ field }) => (
+                        <FormItem className="flex items-start gap-2 space-y-0">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              className="mt-0.5"
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal leading-snug">
+                            I agree to the{" "}
+                            <Link to="/terms" className="text-primary hover:underline">
+                              Terms of Service
+                            </Link>{" "}
+                            and{" "}
+                            <Link to="/privacy" className="text-primary hover:underline">
+                              Privacy Policy
+                            </Link>
+                          </FormLabel>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="w-full btn-primary"
-                >
-                  Create Account
-                </button>
+                    <Button type="submit" className="w-full">
+                      Create account
+                    </Button>
+                  </form>
+                </Form>
 
-                {/* Divider */}
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">Or sign up with</span>
-                  </div>
-                </div>
-
-                {/* Social Sign Up Buttons */}
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    className="w-full btn-secondary flex items-center justify-center space-x-2"
-                  >
-                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" className="w-5 h-5" />
-                    <span>Google</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full btn-secondary flex items-center justify-center space-x-2"
-                  >
-                    <div className="w-5 h-5 bg-gray-900 rounded flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">f</span>
-                    </div>
-                    <span>Facebook</span>
-                  </button>
-                </div>
-              </form>
-
-              {/* Sign In Link */}
-              <div className="mt-6 text-center">
-                <p className="text-gray-600">
-                  Already have an account?{' '}
-                  <Link to="/login" className="text-indigo-600 hover:text-indigo-500 font-medium">
+                <p className="mt-6 text-center text-sm text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link to="/login" className="font-medium text-primary hover:underline">
                     Sign in
                   </Link>
                 </p>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );

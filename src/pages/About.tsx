@@ -1,186 +1,181 @@
+import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import Reveal from "@/components/Reveal";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { statsDisplay } from "@/data/stats";
+import { images } from "@/data/images";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-import { Users, Award, Globe, Zap } from 'lucide-react';
+const team = [
+  {
+    name: "Alex Thompson",
+    role: "CEO & Co-founder",
+    image: images.people.alexThompson,
+    bio: "Former engineering lead at an ed-tech startup. Started Elevate to make structured online learning accessible outside traditional bootcamps.",
+  },
+  {
+    name: "Maria Rodriguez",
+    role: "Head of Product",
+    image: images.people.mariaRodriguez,
+    bio: "Product designer turned PM. Focuses on learner progress UX and instructor publishing workflows.",
+  },
+  {
+    name: "David Chen",
+    role: "Head of Engineering",
+    image: images.people.davidChen,
+    bio: "Full-stack engineer who built Elevate's video pipeline, progress tracking, and creator analytics.",
+  },
+];
+
+const values = [
+  {
+    title: "Clarity over volume",
+    description:
+      "We curate structured paths instead of dumping thousands of unstructured videos. Quality syllabus design matters.",
+  },
+  {
+    title: "Progress you can trust",
+    description:
+      "Learners should always know where they stand. Every course maps to measurable outcomes and completion criteria.",
+  },
+  {
+    title: "Creators earn fairly",
+    description:
+      "Instructors keep 70% of revenue. We invest in tools that help them teach better, not just sell more.",
+  },
+];
 
 const About = () => {
-  const stats = [
-    { icon: Users, value: '2M+', label: 'Active Learners' },
-    { icon: Award, value: '10K+', label: 'Courses Available' },
-    { icon: Globe, value: '150+', label: 'Countries Reached' },
-    { icon: Zap, value: '95%', label: 'Completion Rate' }
-  ];
-
-  const team = [
-    {
-      name: 'Alex Thompson',
-      role: 'CEO & Founder',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300',
-      bio: 'Former VP of Engineering at Coursera, passionate about democratizing education.'
-    },
-    {
-      name: 'Maria Rodriguez',
-      role: 'Head of Product',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b39ba7e0?auto=format&fit=crop&w=300&h=300',
-      bio: 'Product leader with 12+ years experience at Google, focused on user-centric design.'
-    },
-    {
-      name: 'David Chen',
-      role: 'Head of Engineering',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&h=300',
-      bio: 'Technical architect who scaled platforms at Netflix and Spotify.'
-    },
-    {
-      name: 'Sarah Kim',
-      role: 'Head of Content',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&h=300',
-      bio: 'Former curriculum director at Khan Academy, ensuring quality learning experiences.'
-    }
-  ];
+  usePageTitle(
+    "About — Elevate",
+    "Elevate makes structured online learning accessible for developers and designers."
+  );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen animate-page-enter">
       <Navigation />
-      
-      <main className="pt-20">
-        {/* Header */}
-        <section className="section-padding bg-gradient-to-br from-indigo-50 to-purple-50">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6 gradient-text">
-              About Elevate
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We're on a mission to make world-class education accessible to everyone, everywhere.
-            </p>
+
+      <main className="pt-16">
+        <section className="page-header section-padding pb-12 text-center">
+          <div className="container-narrow">
+            <Reveal>
+              <h1 className="mb-4 font-display text-4xl font-semibold lg:text-5xl">
+                About <span className="gradient-text">Elevate</span>
+              </h1>
+              <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+                We build software for people who learn by doing—structured courses, honest progress
+                tracking, and fair economics for creators.
+              </p>
+            </Reveal>
           </div>
         </section>
 
-        {/* Mission Story */}
-        <section className="section-padding">
-          <div className="max-w-4xl mx-auto">
-            <div className="glass-card rounded-2xl p-8 lg:p-12 text-center">
-              <h2 className="text-3xl font-bold mb-6 gradient-text">Our Story</h2>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                Founded in 2020, Elevate was born from a simple belief: that everyone deserves access to 
-                high-quality education, regardless of their location, background, or circumstances. 
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                We started with a vision to connect passionate learners with world-class instructors, 
-                creating an ecosystem where knowledge flows freely and careers are transformed through 
-                the power of learning.
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Today, millions of learners across 150+ countries trust Elevate to advance their careers, 
-                learn new skills, and achieve their dreams. We're just getting started.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats */}
-        <section className="section-padding bg-gradient-to-br from-indigo-50 to-purple-50">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold text-center mb-12 gradient-text">
-              Impact by Numbers
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="glass-card rounded-2xl p-6 text-center animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <stat.icon className="h-8 w-8 text-white" />
+        <section className="section-padding pt-0">
+          <div className="container-narrow">
+            <Reveal>
+              <Card className="card-elevated">
+                <CardContent className="p-8 lg:p-10">
+                  <h2 className="mb-4 font-display text-2xl font-semibold">Our story</h2>
+                  <div className="space-y-4 text-muted-foreground">
+                    <p>
+                      Elevate started in 2020 when our founders noticed a gap: developers and
+                      designers were drowning in unstructured content but starving for clear learning
+                      paths with real projects.
+                    </p>
+                    <p>
+                      We built a platform where every course has a syllabus, every lesson has a
+                      purpose, and every instructor can see where students struggle. Today,{" "}
+                      {statsDisplay.learners} learners across {statsDisplay.countries} countries use
+                      Elevate to build skills they apply at work.
+                    </p>
                   </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
-                  <div className="text-gray-600 font-medium">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+                </CardContent>
+              </Card>
+            </Reveal>
           </div>
         </section>
 
-        {/* Team */}
+        <section className="section-padding bg-muted/40">
+          <div className="container-wide">
+            <Reveal>
+              <h2 className="mb-10 text-center font-display text-2xl font-semibold">
+                Impact by the numbers
+              </h2>
+            </Reveal>
+            <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { value: statsDisplay.learners, label: "Active learners" },
+                { value: statsDisplay.courses, label: "Published courses" },
+                { value: statsDisplay.instructors, label: "Instructors" },
+                { value: statsDisplay.completionRate, label: "Avg. completion rate" },
+              ].map((stat, index) => (
+                <Reveal key={stat.label} delay={index * 80}>
+                  <div className="card-elevated rounded-xl bg-card p-6 text-center">
+                    <dt className="font-display text-3xl font-semibold gradient-text">{stat.value}</dt>
+                    <dd className="text-sm text-muted-foreground">{stat.label}</dd>
+                  </div>
+                </Reveal>
+              ))}
+            </dl>
+          </div>
+        </section>
+
         <section className="section-padding">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-6 gradient-text">
-                Meet Our Team
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                We're a diverse team of educators, engineers, and dreamers united by our passion for learning.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {team.map((member, index) => (
-                <div
-                  key={index}
-                  className="glass-card rounded-2xl p-6 text-center animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-white shadow-lg"
-                  />
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-indigo-600 font-medium mb-3">{member.role}</p>
-                  <p className="text-gray-600 text-sm leading-relaxed">{member.bio}</p>
-                </div>
+          <div className="container-wide">
+            <Reveal>
+              <h2 className="mb-10 text-center font-display text-2xl font-semibold">Our values</h2>
+            </Reveal>
+            <div className="grid gap-6 md:grid-cols-3">
+              {values.map((value, index) => (
+                <Reveal key={value.title} delay={index * 100}>
+                  <Card className="card-elevated h-full">
+                    <CardContent className="p-6">
+                      <h3 className="mb-2 font-semibold">{value.title}</h3>
+                      <p className="text-sm text-muted-foreground">{value.description}</p>
+                    </CardContent>
+                  </Card>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Values */}
-        <section className="section-padding bg-gradient-to-br from-indigo-50 to-purple-50">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-6 gradient-text">
-                Our Values
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                These principles guide everything we do at Elevate.
-              </p>
+        <section className="section-padding border-t border-border bg-muted/40">
+          <div className="container-wide">
+            <Reveal>
+              <h2 className="mb-10 text-center font-display text-2xl font-semibold">Team</h2>
+            </Reveal>
+            <div className="grid gap-8 md:grid-cols-3">
+              {team.map((member, index) => (
+                <Reveal key={member.name} delay={index * 100}>
+                  <Card className="card-elevated h-full overflow-hidden">
+                    <CardContent className="p-6 text-center">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="mx-auto mb-4 h-24 w-24 rounded-full object-cover ring-4 ring-primary/15"
+                      />
+                      <h3 className="font-semibold">{member.name}</h3>
+                      <p className="mb-3 text-sm text-primary">{member.role}</p>
+                      <p className="text-sm text-muted-foreground">{member.bio}</p>
+                    </CardContent>
+                  </Card>
+                </Reveal>
+              ))}
             </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="glass-card rounded-2xl p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Users className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Accessibility First</h3>
-                <p className="text-gray-600">
-                  Quality education should be available to everyone, regardless of their background or circumstances.
-                </p>
+            <Reveal delay={200}>
+              <div className="mt-12 text-center">
+                <Button asChild className="bg-purple-gradient shadow-purple">
+                  <Link to="/contact">Contact us</Link>
+                </Button>
               </div>
-
-              <div className="glass-card rounded-2xl p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Award className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Excellence</h3>
-                <p className="text-gray-600">
-                  We maintain the highest standards in content quality, platform performance, and user experience.
-                </p>
-              </div>
-
-              <div className="glass-card rounded-2xl p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Zap className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Innovation</h3>
-                <p className="text-gray-600">
-                  We continuously innovate to create better learning experiences and outcomes for our community.
-                </p>
-              </div>
-            </div>
+            </Reveal>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );
