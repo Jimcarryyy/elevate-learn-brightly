@@ -1,7 +1,16 @@
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Logo from "@/components/Logo";
+import { cn } from "@/lib/utils";
 
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+const navigation = [
+  { name: "Courses", href: "/courses" },
+  { name: "For Creators", href: "/for-creators" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "About", href: "/about" },
+];
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,102 +18,82 @@ const Navigation = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Courses', href: '/courses' },
-    { name: 'Instructors', href: '/instructors' },
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-  ];
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">E</span>
-            </div>
-            <span className="text-xl font-bold gradient-text">Elevate</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-primary/10 bg-background/90 shadow-sm shadow-primary/5 backdrop-blur-md supports-[backdrop-filter]:bg-background/75">
+      <div className="container-wide px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <Link to="/" className="transition-opacity hover:opacity-90">
+            <Logo />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden items-center gap-1 md:flex">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                className={cn(
+                  "relative rounded-md px-3 py-2 text-sm font-medium transition-all duration-300",
                   isActive(item.href)
-                    ? 'text-indigo-600'
-                    : 'text-gray-700 hover:text-indigo-600'
-                }`}
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
               >
                 {item.name}
                 {isActive(item.href) && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"></div>
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500" />
                 )}
               </Link>
             ))}
           </div>
 
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-300"
-            >
-              Sign In
-            </Link>
-            <Link to="/signup" className="btn-primary">
-              Get Started
-            </Link>
+          <div className="hidden items-center gap-3 md:flex">
+            <Button variant="ghost" asChild className="transition-colors">
+              <Link to="/login">Sign in</Link>
+            </Button>
+            <Button asChild className="bg-purple-gradient shadow-purple transition-all duration-300 hover:shadow-purple-lg">
+              <Link to="/signup">Get started</Link>
+            </Button>
           </div>
 
-          {/* Mobile menu button */}
           <button
+            type="button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-white/20 transition-colors duration-300"
+            className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-accent md:hidden"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-white/20">
-            <div className="flex flex-col space-y-2">
+          <div className="animate-fade-in border-t border-border py-4 md:hidden">
+            <div className="flex flex-col gap-1">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                  className={cn(
+                    "rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
                     isActive(item.href)
-                      ? 'text-indigo-600 bg-white/20'
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-white/10'
-                  }`}
+                      ? "bg-accent text-accent-foreground"
+                      : "text-muted-foreground"
+                  )}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="pt-4 flex flex-col space-y-2">
-                <Link
-                  to="/login"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-300"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/signup"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="btn-primary text-center"
-                >
-                  Get Started
-                </Link>
+              <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
+                <Button variant="outline" asChild>
+                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                    Sign in
+                  </Link>
+                </Button>
+                <Button asChild className="bg-purple-gradient">
+                  <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
+                    Get started
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
