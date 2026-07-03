@@ -1,206 +1,199 @@
+import { Link } from "react-router-dom";
+import { BookOpen, Clock, Award, TrendingUp, Play } from "lucide-react";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { usePageTitle } from "@/hooks/usePageTitle";
+import { toast } from "sonner";
 
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-import { BookOpen, Clock, Award, TrendingUp, Play, Star } from 'lucide-react';
+const enrolledCourses = [
+  {
+    id: "1",
+    slug: "react-development-bootcamp",
+    title: "Complete React Development Bootcamp",
+    instructor: "Sarah Johnson",
+    progress: 65,
+    nextLesson: "React Hooks Deep Dive",
+    totalLessons: 38,
+    completedLessons: 25,
+    lastAccessed: "2 hours ago",
+  },
+  {
+    id: "2",
+    slug: "data-science-with-python",
+    title: "Data Science with Python",
+    instructor: "Dr. Michael Chen",
+    progress: 23,
+    nextLesson: "Pandas for Data Analysis",
+    totalLessons: 32,
+    completedLessons: 7,
+    lastAccessed: "1 day ago",
+  },
+  {
+    id: "3",
+    slug: "ui-ux-design-masterclass",
+    title: "UI/UX Design Masterclass",
+    instructor: "Emily Rodriguez",
+    progress: 89,
+    nextLesson: "Final Project Review",
+    totalLessons: 26,
+    completedLessons: 23,
+    lastAccessed: "3 hours ago",
+  },
+];
+
+const achievements = [
+  { name: "First module complete", earned: true },
+  { name: "7-day streak", earned: true },
+  { name: "Capstone submitted", earned: false },
+  { name: "Course published", earned: false },
+];
 
 const Dashboard = () => {
-  const enrolledCourses = [
-    {
-      id: '1',
-      title: 'Complete React Development Bootcamp',
-      instructor: 'Sarah Johnson',
-      progress: 65,
-      nextLesson: 'React Hooks Deep Dive',
-      totalLessons: 42,
-      completedLessons: 27,
-      lastAccessed: '2 hours ago'
-    },
-    {
-      id: '2',
-      title: 'Data Science with Python',
-      instructor: 'Dr. Michael Chen',
-      progress: 23,
-      nextLesson: 'Pandas for Data Analysis',
-      totalLessons: 38,
-      completedLessons: 9,
-      lastAccessed: '1 day ago'
-    },
-    {
-      id: '3',
-      title: 'UI/UX Design Masterclass',
-      instructor: 'Emily Rodriguez',
-      progress: 89,
-      nextLesson: 'Final Project Review',
-      totalLessons: 28,
-      completedLessons: 25,
-      lastAccessed: '3 hours ago'
-    }
-  ];
+  usePageTitle(
+    "Dashboard preview — Elevate",
+    "Preview the Elevate student dashboard with enrolled courses and progress tracking."
+  );
 
-  const achievements = [
-    { name: 'First Course Complete', icon: Award, earned: true },
-    { name: '7-Day Streak', icon: TrendingUp, earned: true },
-    { name: 'Fast Learner', icon: Clock, earned: false },
-    { name: 'Course Creator', icon: BookOpen, earned: false }
-  ];
+  const handleContinue = (title: string) => {
+    toast.info("Preview mode", {
+      description: `Lesson playback for "${title}" is not enabled in this demo.`,
+    });
+  };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen animate-page-enter">
       <Navigation />
-      
-      <main className="pt-20">
-        {/* Header */}
-        <section className="section-padding bg-gradient-to-br from-indigo-50 to-purple-50">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4 gradient-text">
-              Welcome back, John!
+
+      <main className="pt-16">
+        <section className="page-header section-padding pb-8">
+          <div className="container-wide">
+            <p className="mb-2 text-sm font-medium text-primary">Dashboard preview</p>
+            <h1 className="mb-2 font-display text-3xl font-semibold lg:text-4xl">
+              Welcome back, Alex
             </h1>
-            <p className="text-xl text-gray-600">
-              Continue your learning journey. You're doing great!
+            <p className="text-muted-foreground">
+              Sample learner view — pick up where you left off.
             </p>
           </div>
         </section>
 
-        {/* Stats Overview */}
-        <section className="section-padding">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              <div className="glass-card rounded-2xl p-6 text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <BookOpen className="h-6 w-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-gray-900 mb-1">3</div>
-                <div className="text-gray-600 text-sm">Enrolled Courses</div>
-              </div>
-
-              <div className="glass-card rounded-2xl p-6 text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Award className="h-6 w-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-gray-900 mb-1">2</div>
-                <div className="text-gray-600 text-sm">Certificates Earned</div>
-              </div>
-
-              <div className="glass-card rounded-2xl p-6 text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Clock className="h-6 w-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-gray-900 mb-1">47h</div>
-                <div className="text-gray-600 text-sm">Learning Time</div>
-              </div>
-
-              <div className="glass-card rounded-2xl p-6 text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <TrendingUp className="h-6 w-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-gray-900 mb-1">12</div>
-                <div className="text-gray-600 text-sm">Day Streak</div>
-              </div>
+        <section className="section-padding pt-0">
+          <div className="container-wide">
+            <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { icon: BookOpen, label: "Enrolled courses", value: "3" },
+                { icon: Award, label: "Certificates", value: "1" },
+                { icon: Clock, label: "Hours this month", value: "18h" },
+                { icon: TrendingUp, label: "Day streak", value: "12" },
+              ].map((stat) => (
+                <Card key={stat.label}>
+                  <CardContent className="flex items-center gap-4 p-5">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-md bg-accent text-accent-foreground">
+                      <stat.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-display text-xl font-semibold">{stat.value}</p>
+                      <p className="text-sm text-muted-foreground">{stat.label}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Current Courses */}
-              <div className="lg:col-span-2">
-                <h2 className="text-2xl font-bold mb-6">Continue Learning</h2>
-                <div className="space-y-6">
-                  {enrolledCourses.map((course) => (
-                    <div key={course.id} className="glass-card rounded-2xl p-6">
-                      <div className="flex items-start justify-between mb-4">
+            <div className="grid gap-8 lg:grid-cols-3">
+              <div className="space-y-5 lg:col-span-2">
+                <h2 className="font-display text-xl font-semibold">Continue learning</h2>
+                {enrolledCourses.map((course) => (
+                  <Card key={course.id}>
+                    <CardContent className="p-5">
+                      <div className="mb-4 flex items-start justify-between gap-4">
                         <div>
-                          <h3 className="text-lg font-bold text-gray-900 mb-1">{course.title}</h3>
-                          <p className="text-gray-600 text-sm">by {course.instructor}</p>
+                          <Link
+                            to={`/course/${course.slug}`}
+                            className="font-semibold text-foreground hover:text-primary"
+                          >
+                            {course.title}
+                          </Link>
+                          <p className="text-sm text-muted-foreground">by {course.instructor}</p>
                         </div>
-                        <span className="text-xs text-gray-500">{course.lastAccessed}</span>
+                        <span className="shrink-0 text-xs text-muted-foreground">
+                          {course.lastAccessed}
+                        </span>
                       </div>
 
-                      {/* Progress Bar */}
                       <div className="mb-4">
-                        <div className="flex justify-between text-sm text-gray-600 mb-2">
-                          <span>Progress: {course.completedLessons}/{course.totalLessons} lessons</span>
+                        <div className="mb-1.5 flex justify-between text-sm text-muted-foreground">
+                          <span>
+                            {course.completedLessons}/{course.totalLessons} lessons
+                          </span>
                           <span>{course.progress}%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-300"
-                            style={{ width: `${course.progress}%` }}
-                          ></div>
-                        </div>
+                        <Progress value={course.progress} className="h-2" />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm text-gray-600 mb-1">Next Lesson:</p>
-                          <p className="font-medium text-gray-900">{course.nextLesson}</p>
+                          <p className="text-xs text-muted-foreground">Next lesson</p>
+                          <p className="text-sm font-medium">{course.nextLesson}</p>
                         </div>
-                        <button className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-6 py-2 rounded-full flex items-center space-x-2 transition-all duration-300">
-                          <Play className="h-4 w-4" />
-                          <span>Continue</span>
-                        </button>
+                        <Button size="sm" onClick={() => handleContinue(course.title)}>
+                          <Play className="h-3.5 w-3.5" />
+                          Continue
+                        </Button>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
 
-              {/* Sidebar */}
-              <div className="space-y-8">
-                {/* Learning Streak */}
-                <div className="glass-card rounded-2xl p-6">
-                  <h3 className="text-lg font-bold mb-4">Learning Streak</h3>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text mb-2">
-                      12 Days
-                    </div>
-                    <p className="text-gray-600 text-sm mb-4">Keep it up! You're on fire 🔥</p>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-gradient-to-r from-orange-500 to-red-600 h-2 rounded-full w-4/5"></div>
-                    </div>
-                    <p className="text-xs text-gray-600 mt-2">3 more days to unlock the "Consistent Learner" badge</p>
-                  </div>
-                </div>
+              <div className="space-y-6">
+                <Card>
+                  <CardContent className="p-5">
+                    <h3 className="mb-3 font-semibold">Learning streak</h3>
+                    <p className="font-display text-3xl font-semibold text-primary">12 days</p>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Three more days unlocks the Consistent Learner badge.
+                    </p>
+                    <Progress value={80} className="h-2" />
+                  </CardContent>
+                </Card>
 
-                {/* Achievements */}
-                <div className="glass-card rounded-2xl p-6">
-                  <h3 className="text-lg font-bold mb-4">Achievements</h3>
-                  <div className="space-y-3">
-                    {achievements.map((achievement, index) => (
-                      <div key={index} className="flex items-center space-x-3">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          achievement.earned 
-                            ? 'bg-gradient-to-r from-yellow-400 to-orange-500' 
-                            : 'bg-gray-200'
-                        }`}>
-                          <achievement.icon className={`h-4 w-4 ${achievement.earned ? 'text-white' : 'text-gray-400'}`} />
-                        </div>
-                        <span className={`text-sm ${achievement.earned ? 'text-gray-900 font-medium' : 'text-gray-500'}`}>
-                          {achievement.name}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <Card>
+                  <CardContent className="p-5">
+                    <h3 className="mb-4 font-semibold">Achievements</h3>
+                    <ul className="space-y-3">
+                      {achievements.map((item) => (
+                        <li key={item.name} className="flex items-center gap-3 text-sm">
+                          <span
+                            className={`h-2 w-2 rounded-full ${
+                              item.earned ? "bg-primary" : "bg-muted-foreground/30"
+                            }`}
+                          />
+                          <span
+                            className={
+                              item.earned ? "text-foreground" : "text-muted-foreground"
+                            }
+                          >
+                            {item.name}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
 
-                {/* Quick Actions */}
-                <div className="glass-card rounded-2xl p-6">
-                  <h3 className="text-lg font-bold mb-4">Quick Actions</h3>
-                  <div className="space-y-3">
-                    <button className="w-full text-left px-4 py-3 rounded-lg bg-white/30 hover:bg-white/50 transition-colors duration-300">
-                      Browse New Courses
-                    </button>
-                    <button className="w-full text-left px-4 py-3 rounded-lg bg-white/30 hover:bg-white/50 transition-colors duration-300">
-                      View Certificates
-                    </button>
-                    <button className="w-full text-left px-4 py-3 rounded-lg bg-white/30 hover:bg-white/50 transition-colors duration-300">
-                      Update Profile
-                    </button>
-                  </div>
-                </div>
+                <Button variant="outline" className="w-full" asChild>
+                  <Link to="/courses">Browse new courses</Link>
+                </Button>
               </div>
             </div>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );

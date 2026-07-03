@@ -1,107 +1,88 @@
+import { Clock, Star, Users } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import type { Course } from "@/data/courses";
 
-import { Clock, Users, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+type CourseCardProps = Pick<
+  Course,
+  | "slug"
+  | "title"
+  | "instructor"
+  | "image"
+  | "rating"
+  | "students"
+  | "duration"
+  | "price"
+  | "category"
+  | "level"
+  | "badge"
+>;
 
-interface CourseCardProps {
-  id: string;
-  title: string;
-  instructor: string;
-  image: string;
-  rating: number;
-  students: number;
-  duration: string;
-  price: number;
-  category: string;
-  level: string;
-  badge?: string;
-}
-
-const CourseCard = ({ 
-  id, 
-  title, 
-  instructor, 
-  image, 
-  rating, 
-  students, 
-  duration, 
-  price, 
+const CourseCard = ({
+  slug,
+  title,
+  instructor,
+  image,
+  rating,
+  students,
+  duration,
+  price,
   category,
   level,
-  badge 
+  badge,
 }: CourseCardProps) => {
   return (
-    <Link to={`/course/${id}`} className="group">
-      <div className="glass-card rounded-2xl overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-glow">
-        {/* Image */}
-        <div className="relative overflow-hidden">
+    <Link to={`/course/${slug}`} className="group block h-full">
+      <Card className="card-elevated h-full overflow-hidden">
+        <div className="relative aspect-[4/3] overflow-hidden">
           <img
             src={image}
             alt={title}
-            className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          
-          {/* Badge */}
           {badge && (
-            <div className="absolute top-4 left-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+            <Badge className="absolute left-3 top-3 bg-primary text-primary-foreground">
               {badge}
-            </div>
+            </Badge>
           )}
-          
-          {/* Category & Level */}
-          <div className="absolute top-4 right-4 flex flex-col gap-2">
-            <span className="bg-white/80 backdrop-blur-sm text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
+          <div className="absolute right-3 top-3 flex flex-col gap-1.5">
+            <Badge variant="secondary" className="bg-background/90 text-xs">
               {category}
-            </span>
-            <span className="bg-white/80 backdrop-blur-sm text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
+            </Badge>
+            <Badge variant="outline" className="bg-background/90 text-xs">
               {level}
-            </span>
-          </div>
-
-          {/* Overlay on Hover */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
-            <div className="transform scale-0 group-hover:scale-100 transition-all duration-300">
-              <div className="bg-white/90 backdrop-blur-sm rounded-full px-6 py-3 font-medium text-gray-900">
-                View Course
-              </div>
-            </div>
+            </Badge>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors duration-300">
+        <CardContent className="p-5">
+          <h3 className="mb-1 line-clamp-2 font-semibold text-foreground group-hover:text-primary">
             {title}
           </h3>
-          
-          <p className="text-gray-600 mb-4">by {instructor}</p>
+          <p className="mb-4 text-sm text-muted-foreground">by {instructor}</p>
 
-          {/* Stats */}
-          <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-            <div className="flex items-center space-x-1">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <span className="font-medium">{rating}</span>
+          <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
+            <div className="flex items-center gap-1">
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <span className="font-medium text-foreground">{rating}</span>
               <span>({students.toLocaleString()})</span>
             </div>
-            
-            <div className="flex items-center space-x-1">
-              <Clock className="h-4 w-4" />
+            <div className="flex items-center gap-1">
+              <Clock className="h-3.5 w-3.5" />
               <span>{duration}</span>
             </div>
           </div>
 
-          {/* Price & Enrollment */}
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold gradient-text">
-              ${price}
-            </div>
-            
-            <div className="flex items-center space-x-1 text-gray-500">
-              <Users className="h-4 w-4" />
-              <span className="text-sm">{students.toLocaleString()} enrolled</span>
+            <span className="text-lg font-semibold text-foreground">${price}</span>
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Users className="h-3.5 w-3.5" />
+              <span>{students.toLocaleString()}</span>
             </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </Link>
   );
 };

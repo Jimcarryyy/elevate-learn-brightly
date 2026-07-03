@@ -1,96 +1,89 @@
-
-import { Link } from 'react-router-dom';
-import { ArrowRight, PlayCircle } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Reveal from "@/components/Reveal";
+import { statsDisplay } from "@/data/stats";
+import { images } from "@/data/images";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-purple-50"></div>
-      
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-float"></div>
-      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full opacity-20 animate-float" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute bottom-40 left-20 w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-full opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
+    <section className="relative overflow-hidden section-padding pt-28 lg:pt-32">
+      <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-purple-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute -left-20 bottom-0 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="text-center lg:text-left animate-slide-up">
-            <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6">
-              <span className="gradient-text">Unlock the</span>
-              <br />
-              <span className="text-gray-900">Future of</span>
-              <br />
-              <span className="gradient-text">Learning</span>
+      <div className="container-wide relative">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <Reveal>
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
+              Online learning platform
+            </p>
+            <h1 className="mb-6 font-display text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-[3.25rem]">
+              Courses built for people who{" "}
+              <span className="gradient-text">ship software</span>
             </h1>
-            
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl">
-              Join thousands of learners and creators on Elevate. Master new skills, 
-              build your expertise, and transform your career with our premium courses.
+            <p className="mb-8 max-w-lg text-lg text-muted-foreground">
+              Structured paths in development and design. Complete React Foundations in 6 weeks,
+              track progress lesson by lesson, and learn from instructors who teach what they build.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link to="/courses" className="btn-primary group">
-                Explore Courses
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-              
-              <Link to="/instructors" className="btn-secondary group">
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Become an Instructor
-              </Link>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button size="lg" asChild className="bg-purple-gradient shadow-purple transition-all duration-300 hover:shadow-purple-lg">
+                <Link to="/courses">
+                  Browse courses
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="border-primary/30 transition-all duration-300 hover:border-primary/50 hover:bg-accent">
+                <Link to="/for-creators">Teach on Elevate</Link>
+              </Button>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 mt-12 pt-8 border-t border-gray-200">
-              <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold gradient-text">50K+</div>
-                <div className="text-gray-600">Active Learners</div>
+            <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-primary/15 pt-8">
+              <div>
+                <dt className="font-display text-2xl font-semibold gradient-text">
+                  {statsDisplay.learners}
+                </dt>
+                <dd className="text-sm text-muted-foreground">Learners</dd>
               </div>
-              <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold gradient-text">1.2K+</div>
-                <div className="text-gray-600">Expert Instructors</div>
+              <div>
+                <dt className="font-display text-2xl font-semibold gradient-text">
+                  {statsDisplay.courses}
+                </dt>
+                <dd className="text-sm text-muted-foreground">Courses</dd>
               </div>
-              <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold gradient-text">15K+</div>
-                <div className="text-gray-600">Courses Available</div>
+              <div>
+                <dt className="font-display text-2xl font-semibold gradient-text">
+                  {statsDisplay.instructors}
+                </dt>
+                <dd className="text-sm text-muted-foreground">Instructors</dd>
               </div>
-            </div>
-          </div>
+            </dl>
+          </Reveal>
 
-          {/* Hero Image */}
-          <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="relative">
-              <div className="glass-card rounded-3xl p-8 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img
-                  src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=800&h=600"
-                  alt="Student learning online"
-                  className="w-full h-96 object-cover rounded-2xl"
-                />
-              </div>
-              
-              {/* Floating Course Card */}
-              <div className="absolute -bottom-6 -left-6 glass-card rounded-2xl p-4 animate-pulse-glow">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold">JS</span>
-                  </div>
+          <Reveal delay={150} direction="left">
+            <div className="card-elevated purple-glow overflow-hidden lg:ml-4">
+              <img
+                src={images.hero}
+                alt="Students collaborating during an online workshop"
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <div className="border-t border-primary/10 bg-gradient-to-r from-violet-50/80 to-fuchsia-50/80 p-5">
+                <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-semibold text-gray-900">JavaScript Mastery</div>
-                    <div className="text-sm text-gray-600">4.9 ★ (2.1k reviews)</div>
+                    <p className="text-sm font-medium text-foreground">React Development Bootcamp</p>
+                    <p className="text-sm text-muted-foreground">Lesson 18 of 38 · Hooks deep dive</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-primary">65% complete</p>
+                    <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-primary/15">
+                      <div className="h-full w-[65%] rounded-full bg-purple-gradient transition-all duration-500" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-pulse"></div>
+          </Reveal>
         </div>
       </div>
     </section>
